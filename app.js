@@ -1,30 +1,48 @@
-let h2 = document.querySelector("#book-list h2");
+const list = document.querySelector("#book-list ul");
 
-h2.addEventListener("click", function(e) {
-    console.log(e.target);
-    console.log(e);
+// delite book
+list.addEventListener("click", (e) => {
+    if (e.target.className === "delete") {
+        const li = e.target.parentElement;
+        // li.parentNode.removeChild(li);
+        list.removeChild(li);
+    }
+})
+
+
+// add books
+const addForm = document.forms["add-book"];
+addForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+    const value = addForm.querySelector("input[type='text']").value;
+    // console.log('value', value);
+
+    // create elements
+    const li = document.createElement("li");
+    const bookName = document.createElement("span");
+    const deleteBtn = document.createElement("span");
+
+    // add content
+    deleteBtn.textContent = "delite";
+    bookName.textContent = value;
+
+    // add classes
+    bookName.classList.add("name");
+    deleteBtn.classList.add("delete");
+
+    // append to document
+    li.appendChild(bookName);
+    li.appendChild(deleteBtn);
+    list.appendChild(li);
+    
 });
 
-
-
-const listItems = document.querySelectorAll('#book-list ul li');
-Array.from(listItems).forEach(function(item){
-  item.addEventListener('click', (e) => {
-
-    const li = e.target.parentElement;
-    console.log('child element to remove:', li);
-    console.log('parent element to remove child from:', li.parentElement);
-    li.parentNode.removeChild(li);
-
-  });
-});
-
-
-// prevent default behaviour
-
-const link = document.querySelector('#page-banner a');
-
-link.addEventListener('click', function(e){
-  e.preventDefault();
-  console.log('Navigation to', e.target.textContent, 'was prevented');
+// hide books
+const hideBox = document.querySelector("#hide");
+hideBox.addEventListener("change", function(e) {
+    if (hideBox.checked) {
+        list.style.display = "none";
+    } else {
+        list.style.display = "initial";
+    }
 });
